@@ -39,8 +39,10 @@
 		<?php echo '<h1>'.gethostname().'</h1>';?>
 		<?php echo '<h2>'.shell_exec('uptime -p').'</h2>';?>
 
-		<div class="container">
 
+
+		<div class="container">
+			
 
 			<div class="subcontainer">
 

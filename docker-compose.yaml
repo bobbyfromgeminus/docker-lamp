@@ -6,6 +6,7 @@ services:
     build: './php_docker/'
     volumes:
       - ./www/:/var/www/html/
+    hostname: php_container
 
   # Apache Service
   apache:
@@ -16,6 +17,7 @@ services:
       - "8080:80"
     volumes:
       - ./www/:/var/www/html/
+    hostname: apache_container
 
   # MariaDB Service
   mariadb:
@@ -28,6 +30,7 @@ services:
       MYSQL_PASSWORD: '123456'
     volumes:
       - mysqldata:/var/lib/mysql
+    hostname: mariadb_container
 
   # phpMyAdmin Service
   phpmyadmin:
@@ -38,6 +41,7 @@ services:
       PMA_HOST: mariadb
     depends_on:
       - mariadb
+    hostname: phpmyadmin_container
 
 # Volumes
 volumes:
