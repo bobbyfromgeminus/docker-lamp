@@ -1,0 +1,44 @@
+version: "3.8"
+services:
+
+  # PHP Service
+  php:
+    build: './php_docker/'
+    volumes:
+      - ./www/:/var/www/html/
+
+  # Apache Service
+  apache:
+    build: './apache_docker/'
+    depends_on:
+      - php
+    ports:
+      - "8080:80"
+    volumes:
+      - ./www/:/var/www/html/
+
+  # MariaDB Service
+  mariadb:
+    image: mariadb:10.11
+    command: '--default-authentication-plugin=mysql_native_password'
+    environment:
+      MYSQL_ROOT_PASSWORD: D0ck31z3D_L4mP
+      MYSQL_DATABASE: 'wordpress'
+      MYSQL_USER: 'sqluser'
+      MYSQL_PASSWORD: '123456'
+    volumes:
+      - mysqldata:/var/lib/mysql
+
+  # phpMyAdmin Service
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    ports:
+      - 8081:80
+    environment:
+      PMA_HOST: mariadb
+    depends_on:
+      - mariadb
+
+# Volumes
+volumes:
+  mysqldata:
