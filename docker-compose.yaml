@@ -1,12 +1,11 @@
-version: "3.8"
 services:
 
   # PHP Service
   php:
     build: './php_docker/'
-    volumes:
-      - ./www/:/var/www/html/
     hostname: php_container
+    networks:
+      - lamp-network
 
   # Apache Service
   apache:
@@ -15,9 +14,9 @@ services:
       - php
     ports:
       - "8080:80"
-    volumes:
-      - ./www/:/var/www/html/
     hostname: apache_container
+    networks:
+      - lamp-network
 
   # MariaDB Service
   mariadb:
@@ -31,6 +30,8 @@ services:
     volumes:
       - mysqldata:/var/lib/mysql
     hostname: mariadb_container
+    networks:
+      - lamp-network
 
   # phpMyAdmin Service
   phpmyadmin:
@@ -42,6 +43,13 @@ services:
     depends_on:
       - mariadb
     hostname: phpmyadmin_container
+    networks:
+      - lamp-network
+
+# Networks
+networks:
+  lamp-network:
+    driver: bridge
 
 # Volumes
 volumes:
